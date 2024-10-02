@@ -1,3 +1,11 @@
+import sqlite3
+
+# Establishing a connection to the database
+conn = sqlite3.connect(r'C:\Users\mringler\Documents\Projects\fashion-magazines-monishar123\db\your_database.db')
+cursor = conn.cursor()
+
+# Dropping and creating tables
+cursor.executescript('''
 DROP TABLE IF EXISTS subscriptions;
 CREATE TABLE subscriptions (
     subscription_id INTEGER PRIMARY KEY,
@@ -23,7 +31,10 @@ CREATE TABLE customers (
     customer_name TEXT NOT NULL,
     address TEXT NOT NULL
 );
+''')
 
+# Inserting sample data
+cursor.executescript('''
 INSERT INTO subscriptions (subscription_id, description, price_per_month, subscription_length)
 VALUES 
 (1, 'Politics Magazine', 10, '12'),
@@ -71,3 +82,9 @@ VALUES
 (6, 8, 2, '2017-01-18 00:00:00', 'paid'),
 (4, 9, 9, '2017-01-04 00:00:00', 'paid'),
 (8, 9, 5, '2017-01-26 00:00:00', 'unpaid');
+''')
+
+# Committing the changes and closing the connection
+conn.commit()
+conn.close()
+print("Database setup complete.")
